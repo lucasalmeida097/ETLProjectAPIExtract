@@ -1,11 +1,21 @@
 import os
 import time
 import requests
+import logging
+import logfire
 from datetime import datetime
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database import Base, PriceBitcoin   
+from database import Base, PriceBitcoin
+from logging import basicConfig, getLogger
+
+logfire.configure()
+basicConfig(handlers=[logfire.LogfireLoggingHandler()])
+logger = getLogger(__name__)
+logger.setLevel(logging.INFO)
+logfire.instrument_requests()
+logfire.instrument_sqlalchemy()
 
 load_dotenv()
 
@@ -25,6 +35,7 @@ Session = sessionmaker(bind=engine)
 
 def crate_table():
     Base.metadata.create_all(engine)
+    logger.info("Create table successfully!")
 
 def extract_bitcoin_data():
     url = "https://api.coinbase.com/v2/prices/spot"
@@ -32,11 +43,11 @@ def extract_bitcoin_data():
     if response.status_code == 200:
        return response.json()
     else:
-        print(f"Request failed: {response.status_code}")
+        logger.error(f"Request failed: {response.status_code}")
         return None
 
 def transform_bitcoin_data(data):
-    price = data["data"]["amount"]
+    price = float(data["data"]["amount"])
     cryptocurrency = data["data"]["base"]
     currency = data["data"]["currency"]
     timestamp = datetime.now()
@@ -56,25 +67,25 @@ def save_data(data):
     session.add(new_register)
     session.commit()
     session.close()
-    print(f"[{data['timestamp']}] Data saved successfully.")
+    logger.info(f"[{data['timestamp']}] Data saved successfully.")
 
 
 if __name__ == "__main__":
     crate_table()
-    print("Starting ETL with update every 15 seconds... (CTRL+C to stop)")
+    logger.info("Starting ETL with update every 15 seconds... (CTRL+C to stop)")
 
     while True:
         try:
             json_data = extract_bitcoin_data()
             if json_data:
                 processed_data = transform_bitcoin_data(json_data)
-                print("Processed data:",processed_data)
+                logger.info(f"Processed data: {processed_data}")
                 save_data(processed_data)
             time.sleep(15)
         except KeyboardInterrupt:
-            print("\nProcess interrupted by user. Ending...")
+            logger.info("Process interrupted by user. Ending...")
             break
         except Exception as e:
-            print(f"Error during execution: {e}")
+            logger.error(f"Error during execution: {e}")
             time.sleep(15)
 
