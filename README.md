@@ -1,4 +1,4 @@
-# Bitcoin Data Pipeline: ETL and Real-Time Dashboard with Python
+#💰 Bitcoin Data Pipeline: ETL and Real-Time Dashboard with Python
 
 ## 📌 Introduction
 This project aims to build an ETL pipeline (Extract, Transform, Load) that consumes data from the **Coinbase API**, processes this information, and stores it in a **PostgreSQL** database hosted on **Render**. The collected data is used to power a **real-time dashboard** developed with **Streamlit**.
