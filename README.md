@@ -78,6 +78,7 @@ python pipeline.py
 streamlit run dashboard.py
 ```
 
+
 ---
 🚀 **This project enables the extraction, transformation, and storage of Bitcoin price data, providing a dynamic real-time visualization!**
 
