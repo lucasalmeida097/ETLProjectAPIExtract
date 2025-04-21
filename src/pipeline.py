@@ -18,7 +18,7 @@ logfire.instrument_requests()
 logfire.instrument_sqlalchemy()
 
 load_dotenv()
-
+URL = os.getenv("URL")
 POSTGRES_DB = os.getenv("POSTGRES_DB")
 POSTGRES_USER = os.getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
@@ -38,8 +38,7 @@ def crate_table():
     logger.info("Create table successfully!")
 
 def extract_bitcoin_data():
-    url = "https://api.coinbase.com/v2/prices/spot"
-    response = requests.get(url)
+    response = requests.get(URL)
     if response.status_code == 200:
        return response.json()
     else:
