@@ -40,7 +40,7 @@ This project aims to build an ETL pipeline (Extract, Transform, Load) that consu
 ## 📊 Interactive Dashboard (Real-Time)
 - The **dashboard** was developed with **Streamlit** and displays Bitcoin price trends in real-time.
 - The dashboard can be accessed via the link:
-  🔗 [Access Dashboard](https://etlprojectapiextract-1-vke7.onrender.com)
+  🔗 [Access Dashboard](https://etlprojectapiextract-dashboard.onrender.com/)
 - Data is collected in **streaming mode**, meaning every 15 minutes, ensuring constant updates and near real-time visualization.
 
 ## ☁️ Hosting on Render
