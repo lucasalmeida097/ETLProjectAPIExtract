@@ -68,12 +68,28 @@ venv\Scripts\activate  # For Windows
 pip install -r requirements.txt
 ```
 
-### 3️⃣ Run the ETL Pipeline
+### 3️⃣ Configure environment variables
+Create a .env file in the root directory with the following:
+
+```bash
+POSTGRES_USER=POSTGRES_USER
+POSTGRES_PASSWORD=POSTGRES_PASSWORD
+POSTGRES_HOST=POSTGRES_HOST
+POSTGRES_PORT=POSTGRES_PORT
+POSTGRES_DB=POSTGRES_DB
+
+LOGFIRE_TOKEN=LOGFIRE_TOKEN
+
+URL="https://api.coinbase.com/v2/prices/BTC-USD/spot"
+
+```
+
+### 4️⃣ Run the ETL Pipeline
 ```bash
 python pipeline.py
 ```
 
-### 4️⃣ Run the Dashboard (Optional)
+### 5️⃣ Run the Dashboard (Optional)
 ```bash
 streamlit run dashboard.py
 ```
